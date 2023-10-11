@@ -16,14 +16,6 @@ def get_raw_clim(latitude,longitude):
 
     query_raw_clim=f"SELECT * FROM public.climate_all WHERE lat={latitude1} AND lon={longitude1} ORDER BY month;"
 
-#     sql_connect_string = os.getenv("DB_URL")
-    # db_params={'dbname':'tdi_project_paget', 'user':'tdi_project_paget_user', 'password':'vuzGpp2mkBShGr2zzPZzyDw6d7BR57En', 'host':'dpg-ck2dhs7qj8ts73e37550-a.oregon-postgres.render.com', 'port': '5432'}
-    # print(type(db_params))
-    # db_params={'dbname':'tdi_project_paget',
-    #           'user':'tdi_project_paget_user',
-    #           'password':'vuzGpp2mkBShGr2zzPZzyDw6d7BR57En',
-    #           'host':'dpg-ck2dhs7qj8ts73e37550-a.oregon-postgres.render.com',
-    #           'port': '5432'}
     db_params_p=os.environ.get("db_params_p")
     # print(db_params_p)
     db_params={'dbname':'tdi_project_paget', 
