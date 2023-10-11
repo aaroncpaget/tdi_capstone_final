@@ -2,6 +2,7 @@ import psycopg2
 import sys
 import os
 import json
+import streamlit as st
 
 # Available functions in this document
 # r1=databases_slim4.get_raw_clim(latitude,longitude)
@@ -10,6 +11,7 @@ import json
 # r4=databases_slim4.get_raw_hail(latitude,longitude,diff,yr1,yr2)
 # r6=databases_slim4.get_raw_cloudy(latitude,longitude)
 
+@st.cache_data(show_spinner=False)
 def get_raw_clim(latitude,longitude):
     latitude1=round(latitude,1)
     longitude1=round(longitude,1)
@@ -69,6 +71,7 @@ def get_raw_clim(latitude,longitude):
     return results1
 
 
+@st.cache_data(show_spinner=False)
 def get_raw_torn(latitude,longitude,diff,yr1,yr2):
 
     query_raw_torn=f"SELECT * FROM public.torn_data WHERE slat>={latitude-diff} AND slat<={latitude+diff} AND slon>= {longitude-diff} AND slon<={longitude+diff} AND yr>= {yr1} AND yr<= {yr2} AND mag>= 1 ORDER BY yr;"
@@ -103,6 +106,7 @@ def get_raw_torn(latitude,longitude,diff,yr1,yr2):
 
 
 
+@st.cache_data(show_spinner=False)
 def get_raw_wind(latitude,longitude,diff,yr1,yr2):
 
     query_raw_wind=f"SELECT * FROM public.wind_data WHERE slat>={latitude-diff} AND slat<={latitude+diff} AND slon>= {longitude-diff} AND slon<={longitude+diff} AND yr>= {yr1} AND yr<= {yr2} AND mag>= 50 ORDER BY yr;"
@@ -138,6 +142,7 @@ def get_raw_wind(latitude,longitude,diff,yr1,yr2):
 
 
 
+@st.cache_data(show_spinner=False)
 def get_raw_hail(latitude,longitude,diff,yr1,yr2):
 
     query_raw_hail=f"SELECT * FROM public.hail_data WHERE slat>={latitude-diff} AND slat<={latitude+diff} AND slon>= {longitude-diff} AND slon<={longitude+diff} AND yr>= {yr1} AND yr<= {yr2} AND mag>= 0.75 ORDER BY yr;"
@@ -172,6 +177,7 @@ def get_raw_hail(latitude,longitude,diff,yr1,yr2):
 
 
 
+@st.cache_data(show_spinner=False)
 def get_raw_cloudy(latitude,longitude):
     latitude25=(round(latitude*4)/4+0.125)
     longitude25=(round(longitude*4)/4+0.125)
