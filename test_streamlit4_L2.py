@@ -583,12 +583,6 @@ def get_severe_2(address_in1, address_in2,diff,yr1,yr2):
 
 
 
-
-
-
-
-
-
 #****************************************************************************************************************
 def average_daylight_hours(latitude, month):
     # Convert latitude from degrees to radians
@@ -626,47 +620,4 @@ def geocode_latlon(address):
     return [float(latval), float(lonval), 1]
 
 
-
-#****************************************************************************************************************
-def haversine(lat1,lon1,lat2,lon2):
-    lat1r=lat1*3.1416/180
-    lon1r=lon1*3.1416/180
-    lat2r=float(lat2)*3.1416/180
-    lon2r=float(lon2)*3.1416/180
-    R=3959.0
-    dlon=lon2r-lon1r
-    dlat=lat2r-lat1r
-    a=np.sin(dlat/2)**2 +np.cos(lat1r) * np.cos(lat2r) * np.sin(dlon/2)**2
-    c=2*np.arctan2(np.sqrt(a),np.sqrt(1-a))
-    dist=R * c
-    return round(dist)
-
-#****************************************************************************************************************
-def calcdir(lat1,lon1,lat2,lon2):
-    lat1r=lat1*3.1416/180
-    lon1r=lon1*3.1416/180
-    lat2r=float(lat2)*3.1416/180
-    lon2r=float(lon2)*3.1416/180
-    angle=np.arctan2(lat2r-lat1r,lon2r-lon1r)
-    angle_deg=angle*180/3.1416
-    directions=['N','NE','E','SE','S','SW','W','NW']
-    if angle_deg<0:
-        angle_deg+=360
-    index=int((angle_deg+22.5)/45)%8
-    
-    return directions[index]
-
-#****************************************************************************************************************
-def convert_and_sort_dates(df, date_column_name):
-    # Define a lambda function to convert 'yy' to a four-digit year
-    convert_year = lambda yy: '19' + yy if int(yy) >= 30 else '20' + yy
-   
-    # Split the specified date column into month, day, and year, and apply the lambda function to convert the year
-    df['Date'] = pd.to_datetime(df[date_column_name].str.split('/').apply(lambda x: f'{x[0]}/{x[1]}/{convert_year(x[2])}'), format='%m/%d/%Y')
-
-    # Sort the DataFrame by the 'date' column
-    df = df.sort_values(by='Date',ascending=False)
-    df['Date']=df['Date'].dt.strftime('%m-%d-%Y')
-
-    return df
 
