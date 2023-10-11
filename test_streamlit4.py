@@ -8,7 +8,7 @@ import pandas as pd
 def main():
     st.set_page_config("Weather For You")
     st.title('Location-Based Weather for You')
-    st.markdown("Know what to weather to expect for your area. Temperature extremes, Humidity, Precipitation, Wind, Sun, and Storms available for your Continental US address.")
+    st.markdown("Know what weather to expect for your area. Temperature extremes, Humidity, Precipitation, Wind, Sun, and Storms available for your Continental US address.")
     st.sidebar.markdown(f"### Enter Your Address Below:")
     selected_option = st.sidebar.checkbox('Select to Compare Locations',False)
 
