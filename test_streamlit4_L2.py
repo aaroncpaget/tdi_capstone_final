@@ -187,8 +187,8 @@ def get_fig2(address_in):
         ax21.text(0.5,0.90,f'Annual Total: {s21} inches',transform=ax21.transAxes,ha='center',fontsize=10,bbox=bbox_props)
         
         # ax22.plot(months,np.squeeze(np.array(r7)[:,3]),linestyle='-',color='b',label='Number of Rainy Days')
-        ax22.bar(months,v22,label='Number of Rainy Days')
-        ax22.set_title('Average Number of Days with Rain')
+        ax22.bar(months,v22,label='Number of "Rainy" Days')
+        ax22.set_title('Average Number of Days with Precipitation')
         ax22.set_xlabel('Month')
         ax22.set_ylabel('Number of Days')
         ax22.set_ylim([0, np.ceil(np.max(v22*1.3)) ])
@@ -256,8 +256,8 @@ def get_fig2_2(address_in1, address_in2):
         ax22.text(0.5,0.90,f'Annual Total: {s22} inches',transform=ax22.transAxes,ha='center',fontsize=10,bbox=bbox_props)
     
         # ax22.plot(months,np.squeeze(np.array(r7)[:,3]),linestyle='-',color='b',label='Number of Rainy Days')
-        ax23.bar(months,v23,label='Number of Rainy Days')
-        ax23.set_title('Average Number of Days with Rain')
+        ax23.bar(months,v23,label='Number of "Rainy" Days')
+        ax23.set_title('Average Number of Days with Precipitation')
         ax23.set_xlabel('Month')
         ax23.set_ylabel('Number of Days')
         ax23.set_ylim([0, 31])
@@ -266,8 +266,8 @@ def get_fig2_2(address_in1, address_in2):
         ax23.set_xticklabels(months,rotation=45)
         ax23.text(0.5,0.90,f'Total: {s23} days',transform=ax23.transAxes,ha='center',fontsize=10,bbox=bbox_props)
     
-        ax24.bar(months,v24,label='Number of Rainy Days')
-        ax24.set_title('Average Number of Days with Rain')
+        ax24.bar(months,v24,label='Number of "Rainy" Days')
+        ax24.set_title('Average Number of Days with Precipitation')
         ax24.set_xlabel('Month')
         ax24.set_ylabel('Number of Days')
         ax24.set_ylim([0, 31 ])
@@ -626,4 +626,47 @@ def geocode_latlon(address):
     return [float(latval), float(lonval), 1]
 
 
+
+#****************************************************************************************************************
+def haversine(lat1,lon1,lat2,lon2):
+    lat1r=lat1*3.1416/180
+    lon1r=lon1*3.1416/180
+    lat2r=float(lat2)*3.1416/180
+    lon2r=float(lon2)*3.1416/180
+    R=3959.0
+    dlon=lon2r-lon1r
+    dlat=lat2r-lat1r
+    a=np.sin(dlat/2)**2 +np.cos(lat1r) * np.cos(lat2r) * np.sin(dlon/2)**2
+    c=2*np.arctan2(np.sqrt(a),np.sqrt(1-a))
+    dist=R * c
+    return round(dist)
+
+#****************************************************************************************************************
+def calcdir(lat1,lon1,lat2,lon2):
+    lat1r=lat1*3.1416/180
+    lon1r=lon1*3.1416/180
+    lat2r=float(lat2)*3.1416/180
+    lon2r=float(lon2)*3.1416/180
+    angle=np.arctan2(lat2r-lat1r,lon2r-lon1r)
+    angle_deg=angle*180/3.1416
+    directions=['N','NE','E','SE','S','SW','W','NW']
+    if angle_deg<0:
+        angle_deg+=360
+    index=int((angle_deg+22.5)/45)%8
+    
+    return directions[index]
+
+#****************************************************************************************************************
+def convert_and_sort_dates(df, date_column_name):
+    # Define a lambda function to convert 'yy' to a four-digit year
+    convert_year = lambda yy: '19' + yy if int(yy) >= 30 else '20' + yy
+   
+    # Split the specified date column into month, day, and year, and apply the lambda function to convert the year
+    df['Date'] = pd.to_datetime(df[date_column_name].str.split('/').apply(lambda x: f'{x[0]}/{x[1]}/{convert_year(x[2])}'), format='%m/%d/%Y')
+
+    # Sort the DataFrame by the 'date' column
+    df = df.sort_values(by='Date',ascending=False)
+    df['Date']=df['Date'].dt.strftime('%m-%d-%Y')
+
+    return df
 
