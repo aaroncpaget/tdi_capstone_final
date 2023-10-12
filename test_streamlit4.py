@@ -143,7 +143,49 @@ def main():
                 # r2 (tornado) - # yr, mo, dy, date, mag, lat, lon
                 # r3 (wind) - # yr, date, mag, lat, lon
                 # r4 (hail) - # yr, date, mag, lat, lon
-    
+
+                if len(r21)>0:
+                    dft1 = pd.DataFrame(np.array(r21)[:,3::], columns=("Date", "EF Category", "Latitude", "Longitude"))
+                else:
+                    dft1 = pd.DataFrame(columns=("Date", "EF Category", "Latitude", "Longitude"))
+                if len(r31)>0:
+                    dfw1 = pd.DataFrame(np.array(r31)[:,1::], columns=("Date", "Wind Speed (mph)", "Latitude", "Longitude"))
+                else:
+                    dfw1 = pd.DataFrame(columns=("Date", "Wind Speed (mph)", "Latitude", "Longitude"))
+                if len(r41)>0:
+                    dfh1 = pd.DataFrame(np.array(r41)[:,1::], columns=("Date", "Hail Diameter (in)", "Latitude", "Longitude"))
+                else:
+                    dfh1 = pd.DataFrame(columns=("Date", "Hail Diameter (in)", "Latitude", "Longitude"))
+                if len(r22)>0:
+                    dft2 = pd.DataFrame(np.array(r22)[:,3::], columns=("Date", "EF Category", "Latitude", "Longitude"))
+                else:
+                    dft2 = pd.DataFrame(columns=("Date", "EF Category", "Latitude", "Longitude"))
+                if len(r32)>0:
+                    dfw2 = pd.DataFrame(np.array(r32)[:,1::], columns=("Date", "Wind Speed (mph)", "Latitude", "Longitude"))
+                else:
+                    dfw2 = pd.DataFrame(columns=("Date", "Wind Speed (mph)", "Latitude", "Longitude"))
+                if len(r42)>0:
+                    dfh2 = pd.DataFrame(np.array(r42)[:,1::], columns=("Date", "Hail Diameter (in)", "Latitude", "Longitude"))
+                else:
+                    dfh2 = pd.DataFrame(columns=("Date", "Hail Diameter (in)", "Latitude", "Longitude"))
+
+                fig_swm1, ckval_s1=swm.severe_weather_map(user_input1a, user_input4, dft1, dfw1, dfh1)
+                fig_swm2, ckval_s2=swm.severe_weather_map(user_input1b, user_input4, dft2, dfw2, dfh2)
+                col1s, col2s = st.columns(2)
+                with col1s:
+                    if ckval_s1==1:
+                        st.text(user_input1a.split(",")[0])
+                        st_data1 = st_folium(fig_swm1, width=300, height=400)
+                        # st.markdown(f"###### Markers: Blue - Tornados, Black - Strong wind events, Red - Hail events")
+                with col2s:
+                    if ckval_s2==1:
+                        st.text(user_input1b.split(",")[0])
+                        st_data2 = st_folium(fig_swm2, width=300, height=400)
+                st.markdown(f"###### Markers: Blue - Tornados, Black - Strong wind events, Red - Hail events")
+
+
+                
+                
                 st.divider()    
                 st.markdown(f"### Tornados:")
                 col1a, col2a = st.columns(2)
