@@ -3,12 +3,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import test_streamlit4_L2 as ts4
 import pandas as pd
+import swm_funct2 as swm
+from streamlit_folium import st_folium
 
 # Streamlit app
 def main():
     st.set_page_config("Weather For You")
     st.title('Location-Based Weather for You')
-    st.markdown("Know what weather to expect for your area. Temperature extremes, Humidity, Precipitation, Wind, Sun, and Storms available for your Continental US address.")
+    st.markdown("Know what to weather to expect for your area. Temperature extremes, Humidity, Precipitation, Wind, Sun, and Storms available for your Continental US address.")
     st.sidebar.markdown(f"### Enter Your Address Below:")
     selected_option = st.sidebar.checkbox('Select to Compare Locations',False)
 
@@ -321,10 +323,30 @@ def main():
                 # r4 (hail) - # yr, date, mag, lat, lon
                 # print(f'{len(r2)} {len(r3)} {len(r4)}')
 
+                if len(r2)>0:
+                    dft = pd.DataFrame(np.array(r2)[:,3::], columns=("Date", "EF Category", "Latitude", "Longitude"))
+                else:
+                    dft = pd.DataFrame(columns=("Date", "EF Category", "Latitude", "Longitude"))
+                if len(r3)>0:
+                    dfw = pd.DataFrame(np.array(r3)[:,1::], columns=("Date", "Wind Speed (mph)", "Latitude", "Longitude"))
+                else:
+                    dfw = pd.DataFrame(columns=("Date", "Wind Speed (mph)", "Latitude", "Longitude"))
+                if len(r4)>0:
+                    dfh = pd.DataFrame(np.array(r4)[:,1::], columns=("Date", "Hail Diameter (in)", "Latitude", "Longitude"))
+                else:
+                    dfh = pd.DataFrame(columns=("Date", "Hail Diameter (in)", "Latitude", "Longitude"))
+
+                fig_swm, ckval_s=swm.severe_weather_map(user_input1, user_input4, dft, dfw, dfh)
+                if ckval_s==1:
+                    st.write('Showing:', user_input1)
+                    st_data = st_folium(fig_swm, width=700)
+                    st.markdown(f"###### Markers: Blue - Tornados, Black - Strong wind events, Red - Hail events")
+
+                
                 st.divider()    
                 st.markdown(f"### Tornados:")
                 if len(r2)>0:
-                    dft = pd.DataFrame(np.array(r2)[:,3::], columns=("Date", "EF Category", "Latitude", "Longitude"))
+                    # dft = pd.DataFrame(np.array(r2)[:,3::], columns=("Date", "EF Category", "Latitude", "Longitude"))
                     st.markdown(f"There are {dft.shape[0]:,} tornados EF-1 or stronger in your search.")
                     st.dataframe(dft,hide_index=True, use_container_width=True)
                 else: 
@@ -333,20 +355,20 @@ def main():
                 st.divider()    
                 st.markdown(f"### Strong Winds:")
                 if len(r3)>0:
-                    dfw = pd.DataFrame(np.array(r3)[:,1::], columns=("Date", "Wind Speed (mph)", "Latitude", "Longitude"))
+                    # dfw = pd.DataFrame(np.array(r3)[:,1::], columns=("Date", "Wind Speed (mph)", "Latitude", "Longitude"))
                     st.markdown(f"There are {dfw.shape[0]:,} strong wind events in your search.")
                     st.dataframe(dfw,hide_index=True, use_container_width=True)
                 else:
-                    st.markdown(f"There are no tornados in your search area.")                    
+                    st.markdown(f"There are no Strong Winds in your search area.")                    
     
                 st.divider()    
                 st.markdown(f"### Hail:")
                 if len(r4)>0:
-                    dfh = pd.DataFrame(np.array(r4)[:,1::], columns=("Date", "Hail Diameter (in)", "Latitude", "Longitude"))
+                    # dfh = pd.DataFrame(np.array(r4)[:,1::], columns=("Date", "Hail Diameter (in)", "Latitude", "Longitude"))
                     st.markdown(f"There are {dfh.shape[0]:,} damaging hail in your search.")
                     st.dataframe(dfh,hide_index=True, use_container_width=True)
                 else:
-                    st.markdown(f"There are no tornados in your search area.")
+                    st.markdown(f"There are no damaging Hail Events in your search area.")
                     
                 st.markdown("##### Interpreting the tables:")
                 st.markdown("###### Tornados: The table is limited to significant damage-causing tornados with a rating of EF-1 or greater. The tornados are limited to observed tornados. Additional tornados might have occurred in your selected region, but they are not in this record because they were recorded as EF-0 or not recorded.")

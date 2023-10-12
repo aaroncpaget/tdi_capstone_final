@@ -10,7 +10,6 @@ import streamlit as st
 # r3=databases_slim4.get_raw_wind(latitude,longitude,diff,yr1,yr2)
 # r4=databases_slim4.get_raw_hail(latitude,longitude,diff,yr1,yr2)
 # r6=databases_slim4.get_raw_cloudy(latitude,longitude)
-
 @st.cache_data(show_spinner=False)
 def get_raw_clim(latitude,longitude):
     latitude1=round(latitude,1)
@@ -18,8 +17,15 @@ def get_raw_clim(latitude,longitude):
 
     query_raw_clim=f"SELECT * FROM public.climate_all WHERE lat={latitude1} AND lon={longitude1} ORDER BY month;"
 
+#     sql_connect_string = os.getenv("DB_URL")
+    # db_params={'dbname':'tdi_project_paget', 'user':'tdi_project_paget_user', 'password':'vuzGpp2mkBShGr2zzPZzyDw6d7BR57En', 'host':'dpg-ck2dhs7qj8ts73e37550-a.oregon-postgres.render.com', 'port': '5432'}
+    # print(type(db_params))
+    # db_params={'dbname':'tdi_project_paget',
+    #           'user':'tdi_project_paget_user',
+    #           'password':'vuzGpp2mkBShGr2zzPZzyDw6d7BR57En',
+    #           'host':'dpg-ck2dhs7qj8ts73e37550-a.oregon-postgres.render.com',
+    #           'port': '5432'}
     db_params_p=os.environ.get("db_params_p")
-    # print(db_params_p)
     db_params={'dbname':'tdi_project_paget', 
                'user':'tdi_project_paget_user', 
                'password':'get_me_from_os', 
@@ -70,7 +76,6 @@ def get_raw_clim(latitude,longitude):
 #     t_below32              
     return results1
 
-
 @st.cache_data(show_spinner=False)
 def get_raw_torn(latitude,longitude,diff,yr1,yr2):
 
@@ -78,11 +83,18 @@ def get_raw_torn(latitude,longitude,diff,yr1,yr2):
 
 #     sql_connect_string = os.getenv("DB_URL")
 
-    db_params={'dbname':'tdi_project_paget',
-              'user':'tdi_project_paget_user',
-              'password':'vuzGpp2mkBShGr2zzPZzyDw6d7BR57En',
-              'host':'dpg-ck2dhs7qj8ts73e37550-a.oregon-postgres.render.com',
-              'port': '5432'}
+    # db_params={'dbname':'tdi_project_paget',
+    #           'user':'tdi_project_paget_user',
+    #           'password':'vuzGpp2mkBShGr2zzPZzyDw6d7BR57En',
+    #           'host':'dpg-ck2dhs7qj8ts73e37550-a.oregon-postgres.render.com',
+    #           'port': '5432'}
+    db_params_p=os.environ.get("db_params_p")
+    db_params={'dbname':'tdi_project_paget', 
+               'user':'tdi_project_paget_user', 
+               'password':'get_me_from_os', 
+               'host':'dpg-ck2dhs7qj8ts73e37550-a.oregon-postgres.render.com', 
+               'port': '5432'}
+    db_params['password']=db_params_p
 
     try:
         conn=psycopg2.connect(**db_params)
@@ -105,7 +117,6 @@ def get_raw_torn(latitude,longitude,diff,yr1,yr2):
 
 
 
-
 @st.cache_data(show_spinner=False)
 def get_raw_wind(latitude,longitude,diff,yr1,yr2):
 
@@ -113,11 +124,18 @@ def get_raw_wind(latitude,longitude,diff,yr1,yr2):
 
 #     sql_connect_string = os.getenv("DB_URL")
 
-    db_params={'dbname':'tdi_project_paget',
-              'user':'tdi_project_paget_user',
-              'password':'vuzGpp2mkBShGr2zzPZzyDw6d7BR57En',
-              'host':'dpg-ck2dhs7qj8ts73e37550-a.oregon-postgres.render.com',
-              'port': '5432'}
+    # db_params={'dbname':'tdi_project_paget',
+    #           'user':'tdi_project_paget_user',
+    #           'password':'vuzGpp2mkBShGr2zzPZzyDw6d7BR57En',
+    #           'host':'dpg-ck2dhs7qj8ts73e37550-a.oregon-postgres.render.com',
+    #           'port': '5432'}
+    db_params_p=os.environ.get("db_params_p")
+    db_params={'dbname':'tdi_project_paget', 
+               'user':'tdi_project_paget_user', 
+               'password':'get_me_from_os', 
+               'host':'dpg-ck2dhs7qj8ts73e37550-a.oregon-postgres.render.com', 
+               'port': '5432'}
+    db_params['password']=db_params_p
 
     try:
         conn=psycopg2.connect(**db_params)
@@ -141,7 +159,6 @@ def get_raw_wind(latitude,longitude,diff,yr1,yr2):
 
 
 
-
 @st.cache_data(show_spinner=False)
 def get_raw_hail(latitude,longitude,diff,yr1,yr2):
 
@@ -149,11 +166,18 @@ def get_raw_hail(latitude,longitude,diff,yr1,yr2):
 
 #     sql_connect_string = os.getenv("DB_URL")
 
-    db_params={'dbname':'tdi_project_paget',
-              'user':'tdi_project_paget_user',
-              'password':'vuzGpp2mkBShGr2zzPZzyDw6d7BR57En',
-              'host':'dpg-ck2dhs7qj8ts73e37550-a.oregon-postgres.render.com',
-              'port': '5432'}
+    # db_params={'dbname':'tdi_project_paget',
+    #           'user':'tdi_project_paget_user',
+    #           'password':'vuzGpp2mkBShGr2zzPZzyDw6d7BR57En',
+    #           'host':'dpg-ck2dhs7qj8ts73e37550-a.oregon-postgres.render.com',
+    #           'port': '5432'}
+    db_params_p=os.environ.get("db_params_p")
+    db_params={'dbname':'tdi_project_paget', 
+               'user':'tdi_project_paget_user', 
+               'password':'get_me_from_os', 
+               'host':'dpg-ck2dhs7qj8ts73e37550-a.oregon-postgres.render.com', 
+               'port': '5432'}
+    db_params['password']=db_params_p
 
     try:
         conn=psycopg2.connect(**db_params)
@@ -176,7 +200,6 @@ def get_raw_hail(latitude,longitude,diff,yr1,yr2):
 
 
 
-
 @st.cache_data(show_spinner=False)
 def get_raw_cloudy(latitude,longitude):
     latitude25=(round(latitude*4)/4+0.125)
@@ -186,11 +209,18 @@ def get_raw_cloudy(latitude,longitude):
 
 #     sql_connect_string = os.getenv("DB_URL")
 
-    db_params={'dbname':'tdi_project_paget',
-              'user':'tdi_project_paget_user',
-              'password':'vuzGpp2mkBShGr2zzPZzyDw6d7BR57En',
-              'host':'dpg-ck2dhs7qj8ts73e37550-a.oregon-postgres.render.com',
-              'port': '5432'}
+    # db_params={'dbname':'tdi_project_paget',
+    #           'user':'tdi_project_paget_user',
+    #           'password':'vuzGpp2mkBShGr2zzPZzyDw6d7BR57En',
+    #           'host':'dpg-ck2dhs7qj8ts73e37550-a.oregon-postgres.render.com',
+    #           'port': '5432'}
+    db_params_p=os.environ.get("db_params_p")
+    db_params={'dbname':'tdi_project_paget', 
+               'user':'tdi_project_paget_user', 
+               'password':'get_me_from_os', 
+               'host':'dpg-ck2dhs7qj8ts73e37550-a.oregon-postgres.render.com', 
+               'port': '5432'}
+    db_params['password']=db_params_p
 
     try:
         conn=psycopg2.connect(**db_params)
