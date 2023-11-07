@@ -27,7 +27,7 @@ def main():
 
         
         # Create a dropdown menu to select the plot type
-        plot_type = st.selectbox('Select a plot type:', ['Monthly Weather', 'Expected Precipitation', 'Expected Sunshine', 'Cold Temperature Extremes',  'Severe Storms'])
+        plot_type = st.selectbox('Select a plot type:', ['Monthly Climate', 'Expected Precipitation', 'Expected Sunshine', 'Cold Temperature Extremes',  'Severe Storms'])
     
     # Expected call format
     # get_fig1_2(address_in1, address_in2)
@@ -38,7 +38,7 @@ def main():
     
         
         # Display the selected plot
-        if plot_type == 'Monthly Weather':
+        if plot_type == 'Monthly Climate':
             fig1, ckval1, ckval2=ts4.get_fig1_2(user_input1a,user_input1b)
             if  (ckval1==1) & (ckval2==1): 
                 # st.write('Showing:', user_input1)
@@ -284,7 +284,7 @@ def main():
         # fig1, fig2, fig3, fig4, r2, r3, r4 =ts2.get_figures(user_input1,user_input4,user_input2,user_input3)
         
         # Create a dropdown menu to select the plot type
-        plot_type = st.selectbox('Select a plot type:', ['Monthly Weather', 'Expected Precipitation', 'Expected Sunshine', 'Cold Temperature Extremes',  'Severe Storms'])
+        plot_type = st.selectbox('Select a plot type:', ['Monthly Climate', 'Expected Precipitation', 'Expected Sunshine', 'Cold Temperature Extremes',  'Severe Storms'])
     
     # Expected call format
     # get_fig1(address_in)
@@ -294,7 +294,7 @@ def main():
     
         
         # Display the selected plot
-        if plot_type == 'Monthly Weather':
+        if plot_type == 'Monthly Climate':
             fig1, ckval=ts4.get_fig1(user_input1)
             if ckval==1: 
                 st.write('Showing:', user_input1)
