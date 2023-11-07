@@ -8,10 +8,9 @@ from streamlit_folium import st_folium
 
 # Streamlit app
 def main():
-    st.set_page_config("Climate and Storms")
-    st.title('Climate and Severe Storms for Your Location')
-    st.markdown("Know what to Climate to expect for your area")
-    st.markdown("Temperature extremes, Humidity, Precipitation, Wind, Sun, and Storms available for your Continental US address.")
+    st.set_page_config("Climate and Severe Storms")
+    st.title('Climate and Severe Storms for You')
+    st.markdown("Know what to Climate to expect for your area. Temperature extremes, Humidity, Precipitation, Wind, Sun, and Storms available for your Continental US address.")
     st.sidebar.markdown(f"### Enter Your Address Below:")
     selected_option = st.sidebar.checkbox('Select to Compare Locations',False)
 
